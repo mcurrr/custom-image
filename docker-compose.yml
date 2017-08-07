@@ -1,0 +1,22 @@
+# create your drupal and postgres config here, based off the last assignment
+version: '3'
+
+services:
+  nginx:
+    image: nginx:1.13.3
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: barebear
+      POSTGRES_PASSWORD: simplepassword
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres-data:
