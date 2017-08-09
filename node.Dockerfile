@@ -1,14 +1,12 @@
-# create your custom node image here, based of official node:argon
-FROM node:argon
+FROM node:8.2.1
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /code
+COPY ./src/package.json /code
+WORKDIR /code
 
-# Install app dependencies and bundle app source
-COPY ./src /usr/src/app/
 RUN npm install
 
+COPY ./src /code
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
