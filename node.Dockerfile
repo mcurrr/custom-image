@@ -1,4 +1,4 @@
-FROM node:8.2.1
+FROM node:9.5.0
 
 RUN mkdir -p /code
 COPY ./src/package.json /code
