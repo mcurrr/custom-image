@@ -1,4 +1,3 @@
-# create your drupal and postgres config here, based off the last assignment
 version: '3'
 
 services:
@@ -6,8 +5,8 @@ services:
   #   image: nginx:1.13.3
   #   links:
   #     - node-app:node-app
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   # volumes:
+  #   #   - ./nginx.conf:/etc/nginx/nginx.conf:ro
   #   ports:
   #     - 8080:80
 
@@ -15,8 +14,8 @@ services:
     build:
       context: .
       dockerfile: node.Dockerfile
-    volumes:
-      - ./src:/code
-      - /code/node_modules
+    # volumes:
+    #   - ./src:/code
+    #   - /code/node_modules
     ports:
       - 8080:3000
