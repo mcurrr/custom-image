@@ -6,7 +6,10 @@ const mongoose = require('mongoose');
  
 const { find, random } = lodash;
 
-mongoose.connect('mongodb://mongo:27017', function (err) {
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27017';
+
+mongoose.connect(MONGODB_URI, function (err) {
    if (err) throw err;
    console.log('Successfully connected');
 });
@@ -66,4 +69,4 @@ app.get('/cat/:id/', function (req, res) {
     res.send({error: `no cat with id ${id} found`});
 });
 
-app.listen(process.env.PORT || 5000);
+app.listen(PORT);
