@@ -39,4 +39,4 @@ app.get('/cat/:id/', function (req, res) {
     res.send({error: `no cat with id ${id} found`});
 });
 
-app.listen(process.env.API_PORT);
+app.listen(process.env.PORT || 5000);
