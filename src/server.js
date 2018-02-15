@@ -1,13 +1,11 @@
 
 const express = require('express');
 const lodash = require('lodash')
-var cors = require('cors');
+const cors = require('cors');
 
 const { find, random } = lodash;
 
-const PORT = 3000;
 const app = express();
-
 
 const CATS = [
     {id: 101, name: 'Fluffy'},
@@ -41,5 +39,4 @@ app.get('/cat/:id/', function (req, res) {
     res.send({error: `no cat with id ${id} found`});
 });
 
-app.listen(PORT);
-module.exports = () => 'Hi';
+app.listen(process.env.API_PORT);

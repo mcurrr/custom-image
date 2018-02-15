@@ -4,18 +4,19 @@ services:
   # proxy:
   #   image: nginx:1.13.3
   #   links:
-  #     - node-app:node-app
+  #     - api:api
   #   # volumes:
   #   #   - ./nginx.conf:/etc/nginx/nginx.conf:ro
   #   ports:
   #     - 8080:80
 
-  node-app:
+  api:
     build:
       context: .
-      dockerfile: node.Dockerfile
-    # volumes:
-    #   - ./src:/code
-    #   - /code/node_modules
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/code
+      - /code/node_modules
+    env_file: .env
     ports:
-      - 8080:3000
+      - 5000:5000
