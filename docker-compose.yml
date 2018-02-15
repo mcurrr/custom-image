@@ -20,3 +20,15 @@ services:
     env_file: .env
     ports:
       - 5000:5000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    expose:
+      - 27017
+    # volumes:
+    #   - mongodata:/data/db
+
+# volumes:
+#   mongodata:

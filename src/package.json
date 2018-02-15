@@ -5,12 +5,14 @@
   "author": "mcurrr",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js"
+    "start": "nodemon ./server.js"
   },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "lodash": "^4.17.5",
+    "mongoose": "^5.0.5",
+    "nodemon": "^1.14.12",
     "path": "^0.12.7"
   }
 }
