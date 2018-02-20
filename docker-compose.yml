@@ -27,8 +27,8 @@ services:
     image: mongo
     expose:
       - 27017
-    # volumes:
-    #   - mongodata:/data/db
+    volumes:
+      - mongodata:/data/db
 
-# volumes:
-#   mongodata:
+volumes:
+  mongodata:

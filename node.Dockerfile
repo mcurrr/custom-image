@@ -9,4 +9,6 @@ RUN npm install
 COPY ./src /code
 EXPOSE 5000
 
+USER node
+
 CMD [ "npm", "start" ]
