@@ -5,16 +5,18 @@
   "author": "mcurrr",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "node ./server.js"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-    "colors": "^1.1.2",
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.5",
-    "nodemon": "^1.14.12",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "colors": "^1.1.2",
+    "nodemon": "^1.15.1"
   }
 }

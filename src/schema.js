@@ -19,6 +19,11 @@ const CatSchema = new Schema({
         type: Number,
         required: true,
     },
+    description: String,
+    image: {
+        type: String,
+        default: 'https://cdn.onlinewebfonts.com/svg/img_74506.png',
+    },
     likes: Array,
     dislikes: Array,
     description: String,
