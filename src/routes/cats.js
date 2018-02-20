@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { every, isEmpty, merge } = require('lodash');
+const { every, isEmpty, merge, map } = require('lodash');
 const colors = require('colors/safe');
 
 const { Cat } = require('../schema');
@@ -19,7 +19,7 @@ router.get('/all/', (req, res) => {
         .select('name')
         .exec((err, cats) => {
         if (err) res.status(500).json({ error: err.message }).end();
-        res.json(cats);
+        res.json({ result: map(cats, cat => cat.toJSON()) });
     });
 });
 
@@ -27,7 +27,7 @@ router.get('/all/', (req, res) => {
 router.post('/add/', (req, res) => {
     new Cat(req.body)
         .save()
-        .then(cat => res.status(200).json({ cat }))
+        .then(cat => res.status(200).json({ result: cat.toJSON() }))
         .catch(err => res.json({ error: err.message }));
 });
 
@@ -38,7 +38,7 @@ router.get('/get/:id/', function (req, res) {
     .findById(id)
     .exec((err, cat) => {
         if (err) res.status(500).json({ error: err.message }).end();
-        res.json(cat);
+        res.json({ result: cat.toJSON() });
   });
 });
 
@@ -48,7 +48,7 @@ router.put('change/:id/', function (req, res) {
 
     Cat.findByIdAndUpdate(id, req.body, function(err, cat) {
         if (err) throw err;
-        res.status(200).json({ cat });
+        res.status(200).json({ result: cat.toJSON() });
     });
 });
 

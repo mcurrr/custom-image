@@ -43,6 +43,14 @@ CatSchema.pre('save', function(next) {
     next();
 });
 
+CatSchema.set('toJSON', {
+    transform: function (doc, ret, options) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+    }
+});
+
 const Cat = mongoose.model('Cat', CatSchema);
 
 module.exports = { Cat };
