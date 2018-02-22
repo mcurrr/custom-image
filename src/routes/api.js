@@ -27,6 +27,11 @@ router.get('/all/', (req, res) => {
         return { ...acc, [key]: convertQueryValue(key, value) };
     }, {});
 
+    const matches = Cat.find(query);
+
+    let count = 0;
+    Cat.count(query, (err, counted) => count = counted );
+
     Cat
         .find(query)
         .sort({ created_at: -1 })
@@ -35,7 +40,7 @@ router.get('/all/', (req, res) => {
         .select(`name created_at ${keys(query).join(' ')}`)
         .exec((err, cats) => {
         if (err) res.status(500).json({ error: err.message }).end();
-        res.json({ result: map(cats, cat => cat.toJSON()) });
+        res.json({ result: map(cats, cat => cat.toJSON()), count });
     });
 });
 
