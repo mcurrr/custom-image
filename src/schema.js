@@ -12,12 +12,13 @@ const CatSchema = new Schema({
     id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
-        required: true,
+        required: [true, 'Cat must have a name'],
         unique: true,
     },
     age: {
         type: Number,
-        required: true,
+        required: [true, 'Cat must have an age'],
+        max: [30, 'To old for a cat'],
     },
     description: String,
     image: {

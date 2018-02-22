@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add a cat</title>
+</head>
+<body>
+    <h1>Add a cat</h1>
+    <form action="/api/add/" method="post">
+        <label for="name">Name: </label>
+        <input id="name" type="text" name="name" placeholder="cat's name" required>
+        <br>
+
+        <label for="age">Age: </label>
+        <input id="age" type="number" name="age" placeholder="cat's age" required>
+        <br>
+
+        <label for="description">Description: </label>
+        <input id="description" type="text-area" name="description" placeholder="cat's description">
+        <br>
+
+        <label for="likes">Likes: </label>
+        <input id="likes" type="text" name="likes" placeholder="cat's name">
+        <br>
+
+        <label for="dislikes">Dislikes: </label>
+        <input id="dislikes" type="text" name="dislikes" placeholder="cat's name">
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

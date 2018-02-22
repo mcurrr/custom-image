@@ -1,0 +1,15 @@
+doctype
+html
+  head
+    title List
+  body
+    header
+      h1 !{cat.name}
+    .container
+      ul
+      each value, key in cat
+        li
+          b !{key}
+          i - !{value}
+    footer
+      p Running on node with Express, Pug and Mongoose

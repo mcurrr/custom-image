@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const cats = require('./routes/cats');
+const api = require('./routes/api');
+const view = require('./routes/view');
 
 
 const PORT = process.env.PORT || 5000;
@@ -15,7 +16,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use('/static', express.static('public'));
 
+app.set('views', process.cwd() + '/views')
+app.set('view engine', 'pug')
+
 // routing
-app.use('/cats', cats);
+app.use('/api', api);
+app.use('/view', view);
 
 app.listen(PORT);

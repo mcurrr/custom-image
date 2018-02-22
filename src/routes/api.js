@@ -1,24 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { every, isEmpty, merge, map, reduce, keys } = require('lodash');
+const { every, isEmpty, merge, map, reduce, keys, get, omit } = require('lodash');
 const colors = require('colors/safe');
 
 const { Cat } = require('../schema');
-const CAT_LIMIT = 10;
+const CAT_LIMIT = 5;
 
 function convertQueryValue(key, value) {
     switch (key) {
         case 'name': return new RegExp(value, 'i');
         case 'description': return new RegExp(value, 'i');
-        // case 'age': return { $gte: value.from, $lte: value.to };
+        case 'age': return { $gte: get(value.split(','), 0, 0), $lte: get(value.split(','), 1, 30) };
         case 'likes': return { $in: value.split(',') };
+        case 'dislikes': return { $in: value.split(',') };
         default: return value;
     }
 }
 
 // get all cats
 router.get('/all/', (req, res) => {
-    const query = reduce(req.query, (acc, value, key) => {
+    const page = +req.query.page || 1;
+    const skip = Math.abs(page - 1) * CAT_LIMIT;
+
+    const query = reduce(omit(req.query, 'page'), (acc, value, key) => {
         if (isEmpty(value)) return acc;
         return { ...acc, [key]: convertQueryValue(key, value) };
     }, {});
@@ -26,7 +30,8 @@ router.get('/all/', (req, res) => {
     Cat
         .find(query)
         .sort({ created_at: -1 })
-        // .limit(CAT_LIMIT)
+        .limit(CAT_LIMIT)
+        .skip(skip)
         .select(`name created_at ${keys(query).join(' ')}`)
         .exec((err, cats) => {
         if (err) res.status(500).json({ error: err.message }).end();
@@ -35,6 +40,8 @@ router.get('/all/', (req, res) => {
 });
 
 // add cat
+router.get('/add/', (req, res) => res.sendFile(process.cwd() + '/html/add-form.html'));
+
 router.post('/add/', (req, res) => {
     new Cat(req.body)
         .save()

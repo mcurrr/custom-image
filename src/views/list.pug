@@ -1,0 +1,23 @@
+doctype
+html
+  head
+    title List
+  body
+    header
+      h1 All cats
+    .container
+      ol
+      each cat in cats
+        li
+          a(href='/view/get/' + cat.id) !{cat.name}
+
+      button(onClick='location.search = "page=1"') 1
+      button(onClick='location.search = "page=2"') 2
+      button(onClick='location.search = "page=3"') 3
+      button(onClick='location.search = "page=4"') 4
+      button(onClick='location.search = "page=5"') 5
+
+
+    script 'console.log(">>>")'
+    footer
+      p Running on node with Express, Pug and Mongoose
