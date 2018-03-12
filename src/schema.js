@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+const { isEmpty } = require('lodash');
 
 const Schema = mongoose.Schema;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27017';
+
+const URL_LINK_REGEX = new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/);
 
 mongoose.connect(MONGODB_URI, function (err) {
    if (err) throw err;
@@ -24,6 +27,12 @@ const CatSchema = new Schema({
     image: {
         type: String,
         default: 'https://cdn.onlinewebfonts.com/svg/img_74506.png',
+        validate: {
+            validator: text => {
+                return !text || !isEmpty(text.match(URL_LINK_REGEX));
+            },
+            message: 'Image link must start with https://'
+        }
     },
     likes: Array,
     dislikes: Array,
