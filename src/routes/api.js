@@ -19,7 +19,7 @@ function convertQueryValue(key, value) {
 
 // get all cats
 router.get('/all/', (req, res) => {
-    const page = +req.query.page || 1;
+    const page = +get(req, ['query', 'page'], 1);
     const skip = Math.abs(page - 1) * CAT_LIMIT;
 
     const query = reduce(omit(req.query, 'page'), (acc, value, key) => {
@@ -39,8 +39,12 @@ router.get('/all/', (req, res) => {
         .skip(skip)
         .select(`name created_at ${keys(query).join(' ')}`)
         .exec((err, cats) => {
-        if (err) res.status(500).json({ error: err.message }).end();
-        res.json({ result: map(cats, cat => cat.toJSON()), count });
+            if (err) {
+                res.status(500).json({ error: err.message }).end();
+                return;
+            }
+
+            res.json({ result: map(cats, cat => cat.toJSON()), count });
     });
 });
 
@@ -51,36 +55,50 @@ router.post('/add/', (req, res) => {
     new Cat(req.body)
         .save()
         .then(cat => res.status(200).json({ result: cat.toJSON() }))
-        .catch(err => res.json({ error: err.message }));
+        .catch(err => res.json({ error: err.message }).end());
 });
 
 // get cat
 router.get('/get/:id/', function (req, res) {
-  const id = req.params.id;
+  const id = get(req, ['params', 'id']);
+
   Cat
     .findById(id)
     .exec((err, cat) => {
-        if (err) res.status(500).json({ error: err.message }).end();
+        if (err) {
+            res.status(500).json({ error: err.message }).end();
+            return;
+        }
+
         res.json({ result: cat.toJSON() });
   });
 });
 
 // change cat
 router.put('change/:id/', (req, res) => {
-    const id = req.params.id;
+    const id = get(req, ['params', 'id']);
 
     Cat.findByIdAndUpdate(id, req.body, (err, cat) => {
-        if (err) throw err;
+        if (err) {
+            res.status(500).json({ error: err.message }).end();
+            return;
+        }
+
         res.status(200).json({ result: cat.toJSON() });
     });
 });
 
 // get cat
 router.post('/remove/:id/', (req, res) => {
-    const id = req.params.id;
+    const id = get(req, ['params', 'id']);
+
     Cat
         .remove({ _id: id }, err => {
-            if (err) res.status(500).json({ error: err.message }).end();
+            if (err) {
+                res.status(500).json({ error: err.message }).end();
+                return;
+            }
+
             res.json({ result: 'deleted' });
         });
 });
